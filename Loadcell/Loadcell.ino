@@ -1,7 +1,8 @@
 #include "HX711.h"
 
-const int DOUT = 3;
-const int CLK = 2;
+const float custom_scale_factor = 0.189;
+const int DOUT = 2;
+const int CLK = 3;
 
 HX711 scale;
 
@@ -10,31 +11,24 @@ float calibration_factor = 20170.00;    //로드셀 종류나 상황에 따라 �
 void setup() {
   Serial.begin(9600);
   scale.begin(DOUT,CLK);
-  Serial.println("HX711 calibration sketch");
-  Serial.println("Remove all weight from scale...");
   delay(5000);
-  Serial.println("After readings begin, place known weight on scale");
-  Serial.println("Press + to increase calibration factor");
-  Serial.println("Press - to decrease calibration factor");
-
   scale.set_scale();
   scale.tare();  //Reset the scale to 0
 
   long zero_factor = scale.read_average(); //Get a baseline reading
-  Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
-  Serial.println(zero_factor);
 }
 
 void loop() {
 
   scale.set_scale(calibration_factor); //Adjust to this calibration factor
-
-  Serial.print("Reading: ");
-  Serial.print(scale.get_units()*0.453592);
-  Serial.print(" kg");
-  Serial.print(" calibration_factor: ");
-  Serial.print(calibration_factor);
-  Serial.println();
+  
+  unsigned long time = millis();
+  Serial.write(2);
+  Serial.print(time);
+  Serial.print("\t");
+  Serial.print(scale.get_units()*custom_scale_factor);
+  Serial.print("\t");
+  Serial.println(calibration_factor);
 
   if(Serial.available())
   {
