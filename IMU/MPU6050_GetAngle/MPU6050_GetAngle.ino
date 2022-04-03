@@ -1,3 +1,18 @@
+/* MPU6050 Roll Pitch Yaw 각도 추출
+ *  MATLAB Show_IMU_Data.m 에 적용되는 아두이노 코드
+ *  <프로토콜>
+ *  2 - 문자열 - 문자열 - 문자열
+ *  
+ *  핀맵
+ *  VCC -> 5V
+ *  GND -> GND
+ *  SCL -> A5
+ *  SDA -> A4
+ *  INT -> D2
+ *  아두이노 UNO 기준
+
+
+
 // I2C device class (I2Cdev) demonstration Arduino sketch for MPU6050 class using DMP (MotionApps v2.0)
 // 6/21/2012 by Jeff Rowberg <jeff@rowberg.net>
 // Updates should (hopefully) always be available at https://github.com/jrowberg/i2cdevlib

@@ -1,11 +1,12 @@
 clear;
 close all;
 
+%% 시리얼 통신 연결부분 
 fprintf("******  Incoming Data from Arduino *****\n");
 device = serialport('COM14', 115200)
 configureTerminator(device, "CR/LF");
 
-
+%% 도형 그래픽 부분
 cube = [-5  5 -6; % 1
          5  5 -6; % 2
          5 -5 -6; % 3
@@ -17,40 +18,42 @@ cube = [-5  5 -6; % 1
        ];
 
 zbar = [-1  1  6;
-            1  1  6;
-            1 -1  6;
-           -1 -1  6;
-           -1  1  18;
-            1  1  18;
-            1 -1  18;
-           -1 -1  18;
+         1  1  6;
+         1 -1  6;
+        -1 -1  6;
+        -1  1  18;
+         1  1  18;
+         1 -1  18;
+        -1 -1  18;
        ];
 
-xbar = [5 -1 1;
-        5 1 1;
-        5 1 -1;
-        5 -1 -1;
-        15 -1 1;
-        15 1 1;
-        15 1 -1;
-        15 -1 -1;
-        ];
-ybar = [1 15 1;
-        -1 15 1;
-        -1 15 -1;
-        1 15 -1;
-        1 5 1;
-        -1 5 1;
-        -1 5 -1;
-        1 5 -1;
-        ];
+xbar = [ 5  -1  1;
+         5   1  1;
+         5   1 -1;
+         5  -1 -1;
+         15 -1  1;
+         15  1  1;
+         15  1 -1;
+         15 -1 -1;
+       ];
 
-allface = [1 2 3 4;
-        5 6 7 8;
-        2 3 7 6;
-        3 4 8 7;
-        1 4 8 5;
-        1 2 6 5;];
+ybar = [ 1  15  1;
+        -1  15  1;
+        -1  15 -1;
+         1  15 -1;
+         1   5  1;
+        -1   5  1;
+        -1   5 -1;
+         1   5 -1;
+       ];
+
+allface = [ 1 2 3 4;
+            5 6 7 8;
+            2 3 7 6;
+            3 4 8 7;
+            1 4 8 5;
+            1 2 6 5;
+          ];
 
 face = [1 2 3 4;
         2 3 7 6;
@@ -60,7 +63,7 @@ face = [1 2 3 4;
 
 cap = [5 6 7 8];
 
-% 그래프 설정 
+%% 그래프 설정 
 fig = figure(1);
 fig_axis = axes('Parent',fig);
 axis([-15 15 -15 15 -15 15])
@@ -74,58 +77,62 @@ view(3)
 grid on;
 set(fig_axis,'XDir','reverse','YDir','reverse');
 
-% 애니메이션 부분
+
+%% 그래프 애니메이션 부분
  for i = 1:10000
 
-    
+
     if read(device,1, 'uint8') == 2
 
-    for jj = 1:10
-    double_ypr = 0;
-    readdata = readline(device);
-    ypr = split(readdata);
-    double_ypr = double_ypr + double(ypr);
-    end
+        double_ypr = 0;
+        for jj = 1:10
+            readdata = readline(device);
+            ypr = split(readdata);
+            double_ypr = double_ypr + double(ypr);
+        end
 
-    % 회전각도 설정
-    turn_x_ang = double_ypr(2);
-    turn_y_ang = double_ypr(3);
-    z_ang = 0;
+        double_ypr = double_ypr / 10;
 
-    fprintf("%f.2, %f.2, %f.2\n", double_ypr(2), double_ypr(3), device.NumBytesAvailable)
+        % 회전각도 설정
+        turn_x_ang = double_ypr(3);
+        turn_y_ang = -double_ypr(2);
+        z_ang = 0;
+
+        fprintf("%f.2, %f.2, %f.2\n", double_ypr(2), double_ypr(3), device.NumBytesAvailable)
 
     
-    tic
-    cla
-    s = patch('vertices',cube,'faces',face,'Facecolor',[0.8 1 0.8]);
-    top = patch('vertices', cube, 'faces',cap,'Facecolor',[1 0.8 0.8]);
-    z_bar = patch('vertices',zbar, 'faces', allface,'Facecolor','red');
-    x_bar = patch('vertices',xbar, 'faces', allface,'Facecolor','green');
-    y_bar = patch('vertices',ybar, 'faces', allface,'Facecolor','blue');
+        tic
+        cla
+        s = patch('vertices',cube,'faces',face,'Facecolor',[0.8 1 0.8]);
+        top = patch('vertices', cube, 'faces',cap,'Facecolor',[1 0.8 0.8]);
+        z_bar = patch('vertices',zbar, 'faces', allface,'Facecolor','red');
+        x_bar = patch('vertices',xbar, 'faces', allface,'Facecolor','green');
+        y_bar = patch('vertices',ybar, 'faces', allface,'Facecolor','blue');
     
 
-    rotate(s,[1 0 0], turn_x_ang)
-    rotate(top,[1 0 0], turn_x_ang)
-    rotate(z_bar, [1 0 0], turn_x_ang)
-    rotate(x_bar, [1 0 0], turn_x_ang)
-    rotate(y_bar, [1 0 0], turn_x_ang)
+        rotate(s,[1 0 0], turn_x_ang)
+        rotate(top,[1 0 0], turn_x_ang)
+        rotate(z_bar, [1 0 0], turn_x_ang)
+        rotate(x_bar, [1 0 0], turn_x_ang)
+        rotate(y_bar, [1 0 0], turn_x_ang)
 
-    rotate(s, [0 1 0], turn_y_ang)
-    rotate(top, [0 1 0], turn_y_ang)
-    rotate(z_bar, [0 1 0], turn_y_ang)
-    rotate(x_bar, [0 1 0], turn_y_ang)
-    rotate(y_bar, [0 1 0], turn_y_ang)
+        rotate(s, [0 1 0], turn_y_ang)
+        rotate(top, [0 1 0], turn_y_ang)
+        rotate(z_bar, [0 1 0], turn_y_ang)
+        rotate(x_bar, [0 1 0], turn_y_ang)
+        rotate(y_bar, [0 1 0], turn_y_ang)
 
-    rotate(s, [0 0 1], z_ang)
-    rotate(top, [0 0 1], z_ang)
-    rotate(z_bar, [0 0 1], z_ang)
-    rotate(x_bar, [0 0 1], z_ang)
-    rotate(y_bar, [0 0 1], z_ang)
+        rotate(s, [0 0 1], z_ang)
+        rotate(top, [0 0 1], z_ang)
+        rotate(z_bar, [0 0 1], z_ang)
+        rotate(x_bar, [0 0 1], z_ang)
+        rotate(y_bar, [0 0 1], z_ang)
 
 
-    drawnow;
+        drawnow;
 
     else
+        % 시작바이트 2가 인식되지 않으면 버퍼 비우기
         flush(device)
     end
     
