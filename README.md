@@ -1,3 +1,3 @@
 # BongMyeongSung
-CNU_AEROSPACE_ENGINEERING. NURA 로켓 제작 
+CNU_AEROSPACE_ENGINEERING. 2022 우리동네과학클럽 - 로켓제작
   
