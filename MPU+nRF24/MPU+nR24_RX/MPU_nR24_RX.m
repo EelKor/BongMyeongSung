@@ -2,13 +2,13 @@
 %% 작성자: 충남대학교 항공우주공학과 이승신 202004142
 %% 작성일: 2022-05-18
 
-%% 기  능 
-%% nRF24 모듈을 통해 모형 CANSET에 부착되어 있는 자이로센서
-%% 데이터를 읽어들임
-%% 수신은 nRF24 를 아두이노와 연결시킨것을 PC USB 시리얼 통신으로
-%% 데이터 수신
+% 기  능 
+% nRF24 모듈을 통해 모형 CANSET에 부착되어 있는 자이로센서
+% 데이터를 읽어들임
+% 수신은 nRF24 를 아두이노와 연결시킨것을 PC USB 시리얼 통신으로
+% 데이터 수신
+% 자세한 내용은 Github README 참고
 
-%% 자세한 내용은 Github README 참고
 clear;
 close all;
 
@@ -93,16 +93,12 @@ set(fig_axis,'XDir','reverse','YDir','reverse');
  for i = 1:10000
 
 
-    if read(device,1, 'uint8') == 2
-
         double_ypr = 0;
-        for jj = 1:4
-            readdata = readline(device);
-            ypr = split(readdata);
-            double_ypr = double_ypr + double(ypr);
-        end
+        readdata = readline(device);
+        ypr = split(readdata);
+        double_ypr = double_ypr + double(ypr);
+        
 
-        double_ypr = double_ypr /4;
 
         % 회전각도 설정
         turn_x_ang = double_ypr(3);
@@ -141,11 +137,6 @@ set(fig_axis,'XDir','reverse','YDir','reverse');
 
 
         drawnow;
-
-    else
-        % 시작바이트 2가 인식되지 않으면 버퍼 비우기
-        flush(device)
-    end
     
     % 연산시간 측정 및 애니메이션 균일화
     % 그래프 업데이트 주기를 균일화 하기 위해 0.03초 고정으로 그래프가 
@@ -159,4 +150,5 @@ set(fig_axis,'XDir','reverse','YDir','reverse');
     %    pause(pausetime)
     %enda
     %pause(0.01)
+    
 end

@@ -136,15 +136,12 @@ void setup(void) {
 
   /* ==================== NRF24L01 setup =======================================*/
   radio.begin();
-  /*
+  
   radio.setPALevel(RF24_PA_MAX);    // MIN, LOW, HIGH, MAX
   radio.setDataRate(RF24_250KBPS);
   radio.setRetries(15,15);
   radio.setCRCLength(RF24_CRC_16);
   radio.setChannel(108);
-  */
-  radio.setPALevel(RF24_PA_HIGH);    // MIN, LOW, HIGH, MAX
-  radio.setChannel(110);
   radio.openWritingPipe(address);
   radio.stopListening();
 
@@ -264,4 +261,5 @@ void loop(void) {
   //radio.write(&STX, 1);
   radio.write(&sendData, sizeof(sendData));
   //radio.write(&ETX, 1);
+  delay(1);
 }
