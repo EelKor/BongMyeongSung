@@ -2,7 +2,8 @@ close all;
 
 %% 시리얼 통신 연결부분 
 fprintf("******  Incoming Data from Arduino *****\n");
-device = serialport('COM15', 9600)
+port = input("Input Serial Port(ex. COM15):  ");
+device = serialport(port, 9600)
 configureTerminator(device, "CR/LF");
 
 
