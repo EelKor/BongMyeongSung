@@ -2,8 +2,7 @@ close all;
 
 %% 시리얼 통신 연결부분 
 fprintf("******  Incoming Data from Arduino *****\n");
-port = input("Input Serial Port(ex. COM15):  ");
-device = serialport(port, 9600)
+device = serialport('COM10', 9600)
 configureTerminator(device, "CR/LF");
 
 
@@ -12,7 +11,12 @@ configureTerminator(device, "CR/LF");
 time = zeros(100);
 weight = zeros(100);
 
- for i = 1:100
+figure(1)
+grid on;
+title("Thrust")
+xlabel("i")
+ylabel("Kgf")
+ for i = 1:1000
 
 
     if read(device,1, 'uint8') == 2
@@ -24,6 +28,9 @@ weight = zeros(100);
         weight(i) = Finaldata(2);
 
         fprintf("Time: %d, Weight: %.2f\n", time(i), weight(i));
+        hold on;
+        plot(i,weight(i),'.','Color','red');
+        drawnow;
 
 
     else

@@ -30,16 +30,25 @@ void setup() {
   scale.tare();  //Reset the scale to 0
 
   long zero_factor = scale.read_average(); //Get a baseline reading
-  time = millis();
+  
 }
 
 void loop() {
 
   scale.set_scale(calibration_factor); //Adjust to this calibration factor
-
+  time = millis();
   Serial.write(2);
   Serial.print(time);
   Serial.print(" ");
   Serial.print(scale.get_units());
   Serial.println();
+
+  if(Serial.available())
+  {
+    char key = Serial.read();
+    if(key == '+')
+      calibration_factor += 10;
+    else if(key == '-')
+      calibration_factor -= 10;
+  }
 }
