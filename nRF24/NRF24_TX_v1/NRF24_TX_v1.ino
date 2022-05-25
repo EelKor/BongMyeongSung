@@ -18,18 +18,14 @@ RF24 radio(7,8);  // CE, CSN
  
 void setup(void) {
   Serial.begin(115200);
-  radio.begin();
-  /*
+radio.begin();
+  
   radio.setPALevel(RF24_PA_MAX);    // MIN, LOW, HIGH, MAX
   radio.setDataRate(RF24_250KBPS);
   radio.setRetries(15,15);
   radio.setCRCLength(RF24_CRC_16);
   radio.setChannel(108);
-  */
-  radio.setPALevel(RF24_PA_HIGH);    // MIN, LOW, HIGH, MAX
-  radio.setChannel(110);             
   radio.openWritingPipe(address);
- 
   radio.stopListening();
 }
  
