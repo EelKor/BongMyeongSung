@@ -33,6 +33,7 @@ void loop(void)
   if(radio.available()) 
   {   
       radio.read(&rxData, sizeof(rxData));
+      Serial.write(2);
       Serial.print(rxData[0]);
       Serial.print(" ");
       Serial.print(rxData[1]);
