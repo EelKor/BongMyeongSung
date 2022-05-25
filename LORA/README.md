@@ -8,9 +8,23 @@
 ## 2. SoftwareSerial 사용시 주의사항
  - 해당모듈은 Arduino와 시리얼 통신으로 작동됨, 이때 Arduino Uno 같은 경우 HardwareSerial를 컴퓨터와 통신하는데 사용하므로, SoftwareSerial 사용이 필수적임.
  - RYLR896 기본 Baud rate = 115200 bps, 하지만 SoftwareSerial 에서 115200 bps 의 속도는 매우 불안정함. 따라서 **9600 bps** 로 변경하여 사용
- 
 ```
-AT
+AT+IPR=<rate>
+<rate> is the UART baud rate：
+300
+1200
+4800
+9600
+19200
+28800
+38400
+57600
+115200(default)
+Example: Set the baud rate as 9600,
+*The settings will be memorized in EEPROM.
+AT+IPR=9600
+```
+```
 AT+IPR=9600
 ```
 
@@ -23,6 +37,8 @@ AT+NETWORKID=<Network ID>
 Example: Set the network ID as 6,
 *The settings will be memorized in EEPROM.
 *The ”0” is the public ID of Lora. It is not recommended to set 0 to make the distinction of NETWORK.
+```
+```
 AT+NETWORKID=6
 ```
 
@@ -33,6 +49,8 @@ AT+NETWORKID=6
 
 Example: Set the address of module as 120.
 *The settings will be memorized in EEPROM.
+```
+```
 AT+ADDRESS=120
 ```
 
