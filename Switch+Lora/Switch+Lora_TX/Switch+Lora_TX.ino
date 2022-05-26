@@ -1,10 +1,11 @@
 #include <SoftwareSerial.h>
-
-#define SWITCH 2
+#define DEBUG
+#define SWITCH 8
 
 unsigned long lastTransmission;
 const int interval = 1000;
 int ignition = 1;
+int prev_ignition = 0;
 SoftwareSerial lora(2,3);
 
 void setup(){
@@ -23,25 +24,40 @@ void setup(){
     delay(100);
 
     // 핀 선언
-    pinMode(pinSwitch,INPUT_PULLUP);
-    pinMode(LED_BUILTIN,OUTPUT);
+    pinMode(SWITCH, INPUT_PULLUP);
+    pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop()
-{     
+{ 
   String cmd = "AT+SEND=77,1,";
-  ignition = digitalRead(pinSwitch);
 
-  if(ignition == HIGH)
+  prev_ignition = ignition;
+  ignition += digitalRead(SWITCH);
+
+  if(ignition > 10)
   {
     digitalWrite(LED_BUILTIN,HIGH);
-    lora.println(cmd+String(ignition));
+    lora.println(cmd+String(1));
   }
+
+  if(prev_ignition == ignition)
+  {
+    ignition = 0;
+    prev_ignition = 0;
+  }
+
+
+  #ifdef DEBUG
+  Serial.print(ignition);
+  Serial.print(" , ");
+  Serial.println(prev_ignition);
+  #endif
 
   while(lora.available())
   {
     Serial.write(lora.read());
   }
-  delay(100);
+  delay(50);
 
 }

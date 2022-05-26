@@ -13,17 +13,21 @@ void setup(){
     lora.println("AT+NETWORKID=2");
     delay(100);
     //lora.println("AT+BAND=92000000");
+
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_BUILTIN,LOW);
 }
 
 void loop()
 { 
   String inString;
-
+  digitalWrite(LED_BUILTIN, LOW);
   while(lora.available())
   {
     if(lora.available())
     {
       inString += String(char(lora.read()));
+      digitalWrite(LED_BUILTIN, HIGH);
     }
   }
 
