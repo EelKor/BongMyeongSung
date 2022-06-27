@@ -16,7 +16,7 @@ void setup(){
     delay(100);
     lora.println("AT+PARAMETER=10,7,1,7");
     delay(100);
-    lora.println("AT+ADDRESS=76");
+    lora.println("AT+ADDRESS=77");
     delay(100);
     lora.println("AT+NETWORKID=2");
     delay(100);
