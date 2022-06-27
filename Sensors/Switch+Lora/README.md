@@ -5,10 +5,10 @@
 - 해당 모듈은 3.3V로 구동되므로 VDD 에 3.3v 인가
 - 아두이노의 디지털핀은 5V 전압을 출력하므로, 4.6K, 10K 저항을 이용해 전압 강하회로 구성(링크참조)
 ### 2. RELAY 모듈
- RELAY - ARDUINO
-    DC+ - 5V
-    DC- - GND
-    IN - D7
+RELAY - ARDUINO  
+ DC+ - 5V  
+ DC- - GND  
+ IN - D7
 
 ## 2. SoftwareSerial 사용시 주의사항
  - 해당모듈은 Arduino와 시리얼 통신으로 작동됨, 이때 Arduino Uno 같은 경우 HardwareSerial를 컴퓨터와 통신하는데 사용하므로, SoftwareSerial 사용이 필수적임.
