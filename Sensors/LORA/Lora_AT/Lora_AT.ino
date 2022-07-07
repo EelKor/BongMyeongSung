@@ -1,10 +1,10 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial LoRa(2, 3);  // RX, TX.
+SoftwareSerial LoRa(2, 3);  // TX / RX
 
 void setup() {
   // Open serial communications and wait for port to open:
-  Serial.begin(115200);
+  Serial.begin(9600);
   LoRa.begin(9600);
  
   while (!Serial) {
@@ -15,7 +15,7 @@ void setup() {
   Serial.println("Goodnight moon!");
 
   // set the data rate for the SoftwareSerial port
-  
+  delay(100);
   LoRa.println("AT");
 }
 

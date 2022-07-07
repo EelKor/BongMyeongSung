@@ -3,10 +3,10 @@
 #define ledPin 13
 unsigned long lastTransmission;
 const int interval = 1000;
-SoftwareSerial lora(2,3);
+SoftwareSerial lora(3,4);
 
 void setup(){
-    Serial.begin(115200);
+    Serial.begin(9600);
     lora.begin(9600);
     delay(100);
     lora.println("AT+PARAMETER=10,7,1,7");

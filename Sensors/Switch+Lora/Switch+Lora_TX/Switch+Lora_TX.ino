@@ -6,22 +6,23 @@ unsigned long lastTransmission;
 const int interval = 1000;
 int ignition = 1;
 int prev_ignition = 0;
-SoftwareSerial lora(2,3);
+SoftwareSerial lora(3,4);
 
 void setup(){
-    Serial.begin(115200);
+    Serial.begin(9600);
 
     // Lora 모듈 초기화
     lora.begin(9600);
     delay(100);
     lora.println("AT+PARAMETER=10,7,1,7");
     delay(100);
-    lora.println("AT+ADDRESS=77");
+    lora.println("AT+ADDRESS=76");
     delay(100);
     lora.println("AT+NETWORKID=2");
     delay(100);
     //lora.println("AT+BAND=92000000");
     delay(100);
+    lora.flush();
 
     // 핀 선언
     pinMode(SWITCH, INPUT_PULLUP);
@@ -47,17 +48,6 @@ void loop()
     prev_ignition = 0;
   }
 
-
-  #ifdef DEBUG
-  Serial.print(ignition);
-  Serial.print(" , ");
-  Serial.println(prev_ignition);
-  #endif
-
-  while(lora.available())
-  {
-    Serial.write(lora.read());
-  }
   delay(50);
 
 }
